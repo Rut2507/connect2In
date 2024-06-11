@@ -1,6 +1,6 @@
 from selenium import webdriver
+from selenium.common import NoSuchElementException
 from selenium.webdriver.common.by import By
-import csv
 import time
 
 class LinkedInBot:
@@ -36,13 +36,19 @@ class LinkedInBot:
             all_buttons = self.driver.find_elements(By.TAG_NAME,'button')
             for btn in all_buttons:
                 if btn.text == "Connect":
-                    self.driver.execute_script("arguments[0].click();", btn)
-                    time.sleep(2)
-                    send = self.driver.find_element(By.XPATH,'//button[@aria-label="Send without a note"]')
-                    self.driver.execute_script("arguments[0].click();", send)
-                    close = self.driver.find_element(By.XPATH, '//button[@aria-label="Dismiss"]')
-                    self.driver.execute_script("arguments[0].click();", close)
-                    time.sleep(2)
+                    try:
+                        self.driver.execute_script("arguments[0].click();", btn)
+                        time.sleep(2)
+                        send = self.driver.find_element(By.XPATH,'//button[@aria-label="Send without a note"]')
+                        self.driver.execute_script("arguments[0].click();", send)
+                        close = self.driver.find_element(By.XPATH, '//button[@aria-label="Dismiss"]')
+                        self.driver.execute_script("arguments[0].click();", close)
+                        time.sleep(2)
+
+                    except NoSuchElementException:
+                        pass
+                    except Exception as e:
+                        print(e)
 
     def run(self):
         self.login()
