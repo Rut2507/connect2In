@@ -23,5 +23,4 @@ def start_bot(username, password, keywords, num_pages):
     bot.run()
 
 if __name__ == '__main__':
-    app.run()
-
+    app.run(debug=True)
